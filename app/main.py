@@ -17,7 +17,7 @@ import io
 
 # Variables
 channel_name = os.getenv('CHANNEL_NAME', "recursos")
-token_discord = os.getenv('DISCORD_TOKEN', "MTIzMzU1NDI2MTYxNTMxNzEyMw.GduGrQ.9PRVosAWEdA4OxY9vBkblHXsqu8JGSLoN9Kjdc")
+token_discord = os.getenv('DISCORD_TOKEN', "")
 brazil = pytz.timezone("America/Sao_Paulo")
 rule_id = os.getenv('RULE_ID')
 guild_id = os.getenv('GUILD_ID', "1233550515569295401")
