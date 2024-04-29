@@ -8,7 +8,6 @@ import re
 import pytz
 import json
 from discord import Embed, option
-from pylatex import Document, TikZ, Axis, Plot
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -154,9 +153,9 @@ async def _somar(ctx, number1: int, number2: int):
     
     await ctx.respond(number1+number2)
 
-@bot.slash_command(name="latex", description="Get a image for y=2x+7", pass_context=True, guild_ids=[guild_id])
+@bot.slash_command(name="graph", description="Get a image for y=2x+7", pass_context=True, guild_ids=[guild_id])
 @is_in_channel()
-async def _latex(ctx):
+async def graph(ctx):
     await ctx.defer()
     
     generate_graph()  # Gera o gráfico LaTeX
@@ -179,8 +178,8 @@ async def _addrole_error(interaction: discord.Interaction, error):
 async def _somar_error(interaction: discord.Interaction, error):
     await handle_command_error(interaction, error)
 
-@_latex.error
-async def _latex_error(interaction: discord.Interaction, error):
+@graph.error
+async def graph_error(interaction: discord.Interaction, error):
     await handle_command_error(interaction, error)
 
 bot.run(token_discord)
