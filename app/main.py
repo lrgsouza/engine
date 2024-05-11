@@ -124,29 +124,29 @@ async def _somar(ctx, number1: int, number2: int):
     
     await ctx.respond(number1+number2)
 
-@bot.slash_command(name="graph", description="Get a image for y=ax+b or y=ax²+b+c", pass_context=True, guild_ids=[guild_id])
+@bot.slash_command(name="graph", description="Get a image for y=ax²+b+c", pass_context=True, guild_ids=[guild_id])
 @option("a", int, description="Number.")
 @option("b", int, description="Number.")
 @option("c", int, description="Number.")
 @is_in_channel()
 async def graph(ctx, a: int, b: int, c: int):
     await ctx.defer()
-    # apaga o arquivo se existir
-    if os.path.isfile('grafico_funcao.png'):
-        os.remove('grafico_funcao.png')
-    if os.path.isfile('grafico_funcao_segundo_grau.png'):
-        os.remove('grafico_funcao_segundo_grau.png')
-    #checa se a é 0
-    if a == 0:
-        graph = Graph(b=b, c=c)  # Instancia a classe Graph
-        graph.generate_first_degree_graph()  # Gera o gráfico
-        await send_graph(ctx, 'grafico_funcao.png')  # Envia a imagem para o canal Discord
-        await ctx.respond(f"Grafico gerado com sucesso! funcao y = {b}x + {c}")
-    else:
-        graph = Graph(a=a, b=b, c=c)  # Instancia a classe Graph
-        graph.generate_second_degree_graph()  # Gera o gráfico
-        await send_graph(ctx, 'grafico_funcao_segundo_grau.png')  # Envia a imagem para o canal Discord
-        await ctx.respond(f"Grafico gerado com sucesso! funcao y = {a}x² + {b}x + {c}")
+    graph = Graph(a=a, b=b, c=c)  # Instancia a classe Graph
+    legend, degree = graph.generate_graph()  # Gera o gráfico
+    await send_graph(ctx, f'grafico_funcao_{degree}_grau.png')  # Envia a imagem para o canal Discord
+    os.remove(f'grafico_funcao_{degree}_grau.png')  # Apaga a imagem
+    await ctx.respond(f"Grafico de {degree} grau gerado com sucesso! funcao {legend}")
+
+@bot.slash_command(name="trigonometric-graph", description="Get a image for sin, cos and tan", pass_context=True, guild_ids=[guild_id])
+@option("trigonometric", str, description="Number.", choices=["sin", "cos", "tan"], required=True)
+@is_in_channel()
+async def graph(ctx, trigonometric: str):
+    await ctx.defer()
+    graph = Graph(trigonometric=trigonometric)  # Instancia a classe Graph
+    graph.generate_trigonometric_graph()  # Gera o gráfico
+    await send_graph(ctx, f'grafico_funcao_{trigonometric}.png')  # Envia a imagem para o canal Discord
+    os.remove(f'grafico_funcao_{trigonometric}.png')  # Apaga a imagem
+    await ctx.respond(f"Grafico de {trigonometric} gerado com sucesso!")
 
 @bot.slash_command(name="dice", description="Get a image for y=2x+7", pass_context=True, guild_ids=[guild_id])
 @is_in_channel()
