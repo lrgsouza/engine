@@ -6,7 +6,7 @@ import os
 class TestGraph(unittest.TestCase):
 
     def setUp(self):
-        self.graph = Graph(0, 0, 0)
+        self.graph = Graph(0, 0, 0,'sin')
 
     def testGenerateFirstDegreeGraph(self):
         self.graph = Graph(0, 7, 5)
@@ -39,6 +39,26 @@ class TestGraph(unittest.TestCase):
         self.graph = Graph(0, 7, 5)
         legend, degree = self.graph.generate_graph_legend()
         self.assertEqual(degree, "primeiro")
+
+    def testTrigonometricSinGraph(self):
+        self.graph = Graph(0,0,0,"sin")
+        self.graph.generate_trigonometric_graph()
+        self.assertTrue(os.path.isfile(f'grafico_funcao_{self.graph.trigonometric}.png'))
+    
+    def testTrigonometricCosGraph(self):
+        self.graph = Graph(0,0,0,"cos")
+        self.graph.generate_trigonometric_graph()
+        self.assertTrue(os.path.isfile(f'grafico_funcao_{self.graph.trigonometric}.png'))
+
+    def testTrigonometricTanGraph(self):
+        self.graph = Graph(0,0,0,"tan")
+        self.graph.generate_trigonometric_graph()
+        self.assertTrue(os.path.isfile(f'grafico_funcao_{self.graph.trigonometric}.png'))
+
+    def testTrigonometricInvalidGraph(self):
+        self.graph = Graph(0,0,0,"invalid")
+        with self.assertRaises(ValueError):
+            self.graph.generate_trigonometric_graph()
 
 def suite():
     suite = unittest.TestSuite()
