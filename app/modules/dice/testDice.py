@@ -1,7 +1,7 @@
 
 
 import unittest
-from dice import Dice
+from modules.dice.dice import Dice
 
 
 #Test cases to test Calulator methods

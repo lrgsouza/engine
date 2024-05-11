@@ -1,5 +1,5 @@
 import unittest
-from graph import Graph
+from modules.graph.graph import Graph
 import os
 
 
@@ -25,3 +25,13 @@ class TestGraph(unittest.TestCase):
         self.graph.generate_second_degree_graph()
         # verifica se o arquivo foi criado
         self.assertTrue(os.path.isfile('grafico_funcao_segundo_grau.png'))
+
+def suite():
+    suite = unittest.TestSuite()
+    suite.addTest(Graph('testGenerateFirstDegreeGraph'))
+    suite.addTest(Graph('testGenerateSecondDegreeGraph'))
+    return suite
+
+if __name__ == '__main__':
+    runner = unittest.TextTestRunner()
+    runner.run(suite())
