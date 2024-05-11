@@ -220,6 +220,6 @@ Um exemplo de plugin para o unittest é o `unittest-xml-reporting`, que gera rel
 |:--:|:--:|:--:|:--:|:--:|:--:|
 |/graph (function)|Gera gráficos de funções|validateFunction, defineDegree, pointsGen, graphGen| numpy, pyplot|testValidateFunction, testDefineDegree, testPointsGen, testGraphGen|assertIsNotNone, assertEquals, assertIn, assertIsInstance|
 |/trigraph (sen\|cos\|tan)|Gera funções trigonométricas|pointsGen, graphGen|numpy, pyplot|testPointsGen, testGraphGen|assertIn, assertIsInstance|
-|/dice|Gera 1 número aleatório (1-6)|diceGen|random|testDiceGenProbability, testDiceOutOfRange|assertLessEqual, assertNotIn|
+|/dice|Gera 1 número aleatório (1-6)|roll|random|testDiceGenProbability, testDiceOutOfRange|assertGreater, assertIn|
 |/currency (origin) (destiny)|Mostra a conversão de moedas (USD, BRL, EUR, JPY, CHF, BTC, ETH, USDC, SOL)|exchange||testOutput|assertRegex|
 
