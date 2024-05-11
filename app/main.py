@@ -137,6 +137,16 @@ async def graph(ctx, a: int, b: int, c: int):
     os.remove(f'grafico_funcao_{degree}_grau.png')  # Apaga a imagem
     await ctx.respond(f"Grafico de {degree} grau gerado com sucesso! funcao {legend}")
 
+@bot.slash_command(name="trigonometric-graph", description="Get a image for sin, cos and tan", pass_context=True, guild_ids=[guild_id])
+@option("trigonometric", str, description="Number.", choices=["sin", "cos", "tan"], required=True)
+@is_in_channel()
+async def graph(ctx, trigonometric: str):
+    await ctx.defer()
+    graph = Graph(trigonometric=trigonometric)  # Instancia a classe Graph
+    graph.generate_trigonometric_graph()  # Gera o gráfico
+    await send_graph(ctx, f'grafico_funcao_{trigonometric}.png')  # Envia a imagem para o canal Discord
+    os.remove(f'grafico_funcao_{trigonometric}.png')  # Apaga a imagem
+    await ctx.respond(f"Grafico de {trigonometric} gerado com sucesso!")
 
 @bot.slash_command(name="dice", description="Get a image for y=2x+7", pass_context=True, guild_ids=[guild_id])
 @is_in_channel()
