@@ -12,8 +12,8 @@ from discord import Embed, option
 import matplotlib.pyplot as plt
 import numpy as np
 import io
-
-
+from modules.dice.dice import Dice
+from modules.graph.graph import Graph
 # Variables
 channel_name = os.getenv('CHANNEL_NAME', "recursos")
 token_discord = os.getenv('DISCORD_TOKEN', "")
@@ -75,40 +75,11 @@ def is_adm_or_has_role(role=None):
 
 
 
-
-
-
-
-
-
-
-# Função para gerar o gráfico da função y = 2x + 7
-def generate_graph():
-    x = np.linspace(-10, 10, 400)
-    y = 2*x + 7
-
-    plt.figure()
-    plt.plot(x, y)
-    plt.xlabel('x')
-    plt.ylabel('y')
-    plt.grid(True)
-    plt.title('Graph of y = 2x + 7')
-    plt.axhline(0, color='black',linewidth=0.5)
-    plt.axvline(0, color='black',linewidth=0.5)
-    plt.savefig('grafico_funcao.png')
-
 # Função para enviar a imagem para o canal Discord
-async def send_graph(ctx):
-    with open('grafico_funcao.png', 'rb') as f:
+async def send_graph(ctx, file):
+    with open(file, 'rb') as f:
         file = discord.File(f)
         await ctx.send(file=file)
-
-
-
-
-
-
-
 
 
 ##############################
@@ -153,13 +124,38 @@ async def _somar(ctx, number1: int, number2: int):
     
     await ctx.respond(number1+number2)
 
-@bot.slash_command(name="graph", description="Get a image for y=2x+7", pass_context=True, guild_ids=[guild_id])
+@bot.slash_command(name="graph", description="Get a image for y=ax+b or y=ax²+b+c", pass_context=True, guild_ids=[guild_id])
+@option("a", int, description="Number.")
+@option("b", int, description="Number.")
+@option("c", int, description="Number.")
+@is_in_channel()
+async def graph(ctx, a: int, b: int, c: int):
+    await ctx.defer()
+    # apaga o arquivo se existir
+    if os.path.isfile('grafico_funcao.png'):
+        os.remove('grafico_funcao.png')
+    if os.path.isfile('grafico_funcao_segundo_grau.png'):
+        os.remove('grafico_funcao_segundo_grau.png')
+    #checa se a é 0
+    if a == 0:
+        graph = Graph(b=b, c=c)  # Instancia a classe Graph
+        graph.generate_first_degree_graph()  # Gera o gráfico
+        await send_graph(ctx, 'grafico_funcao.png')  # Envia a imagem para o canal Discord
+        await ctx.respond(f"Grafico gerado com sucesso! funcao y = {b}x + {c}")
+    else:
+        graph = Graph(a=a, b=b, c=c)  # Instancia a classe Graph
+        graph.generate_second_degree_graph()  # Gera o gráfico
+        await send_graph(ctx, 'grafico_funcao_segundo_grau.png')  # Envia a imagem para o canal Discord
+        await ctx.respond(f"Grafico gerado com sucesso! funcao y = {a}x² + {b}x + {c}")
+
+@bot.slash_command(name="dice", description="Get a image for y=2x+7", pass_context=True, guild_ids=[guild_id])
 @is_in_channel()
 async def graph(ctx):
     await ctx.defer()
-    
-    generate_graph()  # Gera o gráfico LaTeX
-    await send_graph(ctx)  # Envia a imagem para o canal Discord
+    dice = Dice()
+    result = dice.dice_gen()
+    await ctx.respond(f'Seu dado foi {result}')
+
 
 ##############################
 ####### ERROR HANDLING #######
