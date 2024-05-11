@@ -157,6 +157,26 @@ async def graph(ctx):
     await ctx.respond(f'Seu dado foi {result}')
 
 
+from modules.currency.currency import Currency
+@bot.slash_command(name="currency", description="Get currency value", pass_context=True, guild_ids=[guild_id])
+@option("origin", str, description="Currency code.", choices=Currency.codes())
+@option("target", str, description="Currency code.", choices=Currency.codes())
+@is_in_channel()
+async def currency(ctx, origin: str, target: str):
+    await ctx.defer()
+    currency = Currency()
+    value = currency.currency(origin, target)
+
+    if value is None:
+        await ctx.respond(f'An error occurred while trying to get the currency value. Please try again later.')
+        return
+
+    if value < 0:
+        await ctx.respond(f'An error occurred while trying to get the currency value. Please try again later.')
+        return
+    
+    await ctx.respond(f'# {Currency.emojis()[origin]} {origin} = **{value}** {target} {Currency.emojis()[target]}')
+
 ##############################
 ####### ERROR HANDLING #######
 ##############################
