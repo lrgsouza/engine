@@ -1,17 +1,11 @@
 import os
 import discord
 from loguru import logger
-from time import time
 from discord.ext import commands
 import datetime
-import re
 import pytz
-import json
 from discord import Embed, option
 
-import matplotlib.pyplot as plt
-import numpy as np
-import io
 from modules.dice.dice import Dice
 from modules.graph.graph import Graph
 # Variables
@@ -101,7 +95,7 @@ async def help(ctx):
 @option("role", discord.Role, description="Role that will be applied to the user.")
 @is_adm_or_has_role()
 @is_in_channel()
-async def _addrole(ctx, user: discord.Member, role: discord.Role):
+async def addrole(ctx, user: discord.Member, role: discord.Role):
     await ctx.defer()
     try:
         await user.add_roles(role)
@@ -119,7 +113,7 @@ async def _addrole(ctx, user: discord.Member, role: discord.Role):
 @option("number1", int, description="Number.",choices=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
 @option("number2", int, description="Number.",choices=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
 @is_in_channel()
-async def _somar(ctx, number1: int, number2: int):
+async def somar(ctx, number1: int, number2: int):
     await ctx.defer()
     
     await ctx.respond(number1+number2)
@@ -176,26 +170,5 @@ async def currency(ctx, origin: str, target: str):
         return
     
     await ctx.respond(f'# {Currency.emojis()[origin]} {origin} = **{value}** {target} {Currency.emojis()[target]}')
-
-##############################
-####### ERROR HANDLING #######
-##############################
-
-async def handle_command_error(interaction: discord.Interaction, error):
-    logger.error(error)
-    await interaction.respond(content=f":x: {error}", ephemeral=True)
-
-
-@_addrole.error
-async def _addrole_error(interaction: discord.Interaction, error):
-    await handle_command_error(interaction, error)
-
-@_somar.error
-async def _somar_error(interaction: discord.Interaction, error):
-    await handle_command_error(interaction, error)
-
-@graph.error
-async def graph_error(interaction: discord.Interaction, error):
-    await handle_command_error(interaction, error)
 
 bot.run(token_discord)
