@@ -6,7 +6,7 @@ from discord.ext import commands
 import discord
 
 # Variables
-channel_name = os.getenv('CHANNEL_NAME', "test-002")
+channel_name = os.getenv('CHANNEL_NAME', "recursos")
 token_discord = os.getenv('DISCORD_TOKEN', "")
 brazil = pytz.timezone("America/Sao_Paulo")
 rule_id = os.getenv('RULE_ID')
