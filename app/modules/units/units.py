@@ -1,6 +1,5 @@
 import requests
 
-
 class Units:
     # Default request parameters
     user_id = "matheusjulidori"
@@ -66,21 +65,30 @@ class Units:
 
         if unidade_origem not in allowed_units or unidade_destino not in allowed_units:
             return None
-
+        
+        if unidade_origem == unidade_destino:
+            return 1
+        
         # If unit is kg, g or mg converto to gram before, API only accepts gram
         valor = float(valor)
-        altered_unit = ""
+        altered_origin_unit = ""
         if unidade_origem == "kg":
             unidade_origem = "g"
-            altered_unit = "kg"
+            altered_origin_unit = "kg"
             valor = valor * 1000
         elif unidade_origem == "mg":
             unidade_origem = "g"
-            altered_unit = "mg"
+            altered_origin_unit = "mg"
             valor = valor / 1000
 
-        if unidade_origem == unidade_destino:
-            return 1
+        #If destiny unit is kg, g or mg, results needs to be reconvert from gram
+        altered_destiny_unit = ""
+        if unidade_destino == "kg":
+            unidade_destino = "g"
+            altered_destiny_unit = "kg"
+        elif unidade_destino == "mg":
+            unidade_destino = "g"
+            altered_destiny_unit = "mg"
 
         # Tries to convert the units using the API
 
@@ -91,12 +99,17 @@ class Units:
         }, headers=Units.request_header)
 
         if response.status_code == 200:
-            if altered_unit == 'kg':
-                return float(response.json()["result-float"]) / 1000
-            elif altered_unit == 'mg':
-                return float(response.json()["result-float"]) * 1000
-            else:
-                return float(response.json()["result-float"])
+            result = float(response.json()["result-float"])
+
+            #Check altered units to reconvert the result
+
+            if altered_destiny_unit == "kg":
+                result = result / 1000
+            elif altered_destiny_unit == "mg":
+                result = result * 1000
+        
+            return result
+        
         else:
             return None
 
@@ -124,14 +137,25 @@ class Units:
 
         if unidade_origem not in allowed_units or unidade_destino not in allowed_units:
             return None
+        
+        if unidade_origem == unidade_destino:
+            return 1
 
         # If unit is Kelvin, converto to Celsius before, API only accepts Celsius
         valor = float(valor)
-        altered_unit = ""
+        altered_origin_unit = ""
         if unidade_origem == "K":
             unidade_origem = "C"
-            altered_unit = "K"
+            altered_origin_unit = "K"
             valor = valor - 273.15
+
+        #If destiny unit is Kelvin, results needs to be reconvert from Celsius to Kelvin
+        altered_destiny_unit = ""
+        if unidade_destino == "K":
+            unidade_destino = "C"
+            altered_destiny_unit = "K"
+
+
 
         # Tries to convert the units using the API
 
@@ -142,10 +166,15 @@ class Units:
         }, headers=Units.request_header)
 
         if response.status_code == 200:
-            if altered_unit == 'K':
-                return float(response.json()["result-float"]) + 273.15
-            else:
-                return float(response.json()["result-float"])
+            result = float(response.json()["result-float"])
+
+            #Check altered units to reconvert the result
+
+            if altered_destiny_unit == "K":
+                result = result + 273.15
+            
+            return result
+
         else:
             return None
 
@@ -176,25 +205,40 @@ class Units:
 
         if unidade_origem not in allowed_units or unidade_destino not in allowed_units:
             return None
+        
+        if unidade_origem == unidade_destino:
+            return 1
 
-        # If unit is km, cm or mm converto to meter before, API only accepts meter
+        # If origin unit is km, cm or mm convert to to meter before, API only accepts meter
         valor = float(valor)
-        altered_unit = ""
+        altered_origin_unit = ""
+
         if unidade_origem == "km":
             unidade_origem = "m"
-            altered_unit = "km"
+            altered_origin_unit = "km"
             valor = valor * 1000
         elif unidade_origem == "cm":
             unidade_origem = "m"
-            altered_unit = "cm"
+            altered_origin_unit = "cm"
             valor = valor / 100
         elif unidade_origem == "mm":
             unidade_origem = "m"
-            altered_unit = "mm"
+            altered_origin_unit = "mm"
             valor = valor / 1000
 
-        if unidade_origem == unidade_destino:
-            return 1
+        #if destiny unit is km cm or mm, convert back from meter, API returns meter
+        altered_destiny_unit = ""
+        if unidade_destino == "km":
+            unidade_destino = "m"
+            altered_destiny_unit = "km"
+        elif unidade_destino == "cm":
+            unidade_destino = "m"
+            altered_destiny_unit = "cm"
+        elif unidade_destino == "mm":
+            unidade_destino = "m"
+            altered_destiny_unit = "mm"
+
+
 
         # Tries to convert the units using the API
 
@@ -205,13 +249,18 @@ class Units:
         }, headers=Units.request_header)
 
         if response.status_code == 200:
-            if altered_unit == 'km':
-                return float(response.json()["result-float"]) / 1000
-            elif altered_unit == 'cm':
-                return float(response.json()["result-float"]) * 100
-            elif altered_unit == 'mm':
-                return float(response.json()["result-float"]) * 1000
-            else:
-                return float(response.json()["result-float"])
+            result = response.json()["result-float"]
+
+            #Check altered units to reconvert the result
+            
+            if altered_destiny_unit == "km":
+                result = result / 1000
+            elif altered_destiny_unit == "cm":
+                result = result * 100
+            elif altered_destiny_unit == "mm":
+                result = result * 1000
+
+            return result
         else:
             return None
+
