@@ -1,0 +1,44 @@
+{
+  "coord": {
+    "lon": -45.7033,
+    "lat": -22.2522
+  },
+  "weather": [
+    {
+      "id": 804,
+      "main": "Clouds",
+      "description": "overcast clouds",
+      "icon": "04d"
+    }
+  ],
+  "base": "stations",
+  "main": {
+    "temp": 294.27,
+    "feels_like": 294.21,
+    "temp_min": 294.27,
+    "temp_max": 294.27,
+    "pressure": 1016,
+    "humidity": 68,
+    "sea_level": 1016,
+    "grnd_level": 915
+  },
+  "visibility": 10000,
+  "wind": {
+    "speed": 0.44,
+    "deg": 96,
+    "gust": 0.94
+  },
+  "clouds": {
+    "all": 100
+  },
+  "dt": 1716665274,
+  "sys": {
+    "country": "BR",
+    "sunrise": 1716629539,
+    "sunset": 1716668857
+  },
+  "timezone": -10800,
+  "id": 3449847,
+  "name": "Santa Rita do Sapucaí",
+  "cod": 200
+}
