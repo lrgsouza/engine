@@ -4,6 +4,7 @@ from discord import option
 from modules.dice.dice import Dice
 from modules.graph.graph import Graph
 from modules.currency.currency import Currency
+from modules.units.units import Units
 from variables import *
 from discord_function import *
 
@@ -73,5 +74,38 @@ async def currency(ctx, origin: str, target: str):
     
     formatted_value = "{:.8f}".format(value).rstrip('0').rstrip('.')
     await ctx.respond(f'# {Currency.emojis()[origin]} {origin} = **{formatted_value}** {target} {Currency.emojis()[target]}')
+
+@bot.slash_command(name="convert_weight", description="Convert weight units", pass_context=True, guild_ids=[guild_id])
+@option("origin", str, description="Origin unit.", choices=Units.weight_units())
+@option("dest", str, description="Destination unit.", choices=Units.weight_units())
+@option("value", float, description="Value to convert.")
+@is_in_channel()
+async def weight(ctx, origin: str, dest: str, value: float):
+    await ctx.defer()
+    units = Units()
+    result = units.weight(origin, dest, value)
+    await ctx.respond(f'{value} {origin} = {result} {dest}')
+
+@bot.slash_command(name="convert_temperature", description="Convert temperature units", pass_context=True, guild_ids=[guild_id])
+@option("origin", str, description="Origin unit.", choices=Units.temperature_units())
+@option("dest", str, description="Destination unit.", choices=Units.temperature_units())
+@option("value", float, description="Value to convert.")
+@is_in_channel()
+async def temperature(ctx, origin: str, dest: str, value: float):
+    await ctx.defer()
+    units = Units()
+    result = units.temperature(origin, dest, value)
+    await ctx.respond(f'{value} {origin} = {result} {dest}')
+
+@bot.slash_command(name="convert_distance", description="Convert distance units", pass_context=True, guild_ids=[guild_id])
+@option("origin", str, description="Origin unit.", choices=Units.distance_units())
+@option("dest", str, description="Destination unit.", choices=Units.distance_units())
+@option("value", float, description="Value to convert.")
+@is_in_channel()
+async def distance(ctx, origin: str, dest: str, value: float):
+    await ctx.defer()
+    units = Units()
+    result = units.distance(origin, dest, value)
+    await ctx.respond(f'{value} {origin} = {result} {dest}')
 
 bot.run(token_discord)
