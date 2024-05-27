@@ -16,23 +16,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Set up Python 3.9
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: 3.9
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-      - name: Run tests
+      - name: Run tests with coverage
         run: |
           cd app
-          python3 -m unittest discover -p "*.py" > output.txt
-          coverage run -m unittest discover
+          coverage run -m unittest discover -p "*.py" | tee output.txt
           coverage report
       - name: Save test results
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: Test results coverage
-          path: .coverage output.txt
+          path: app/output.txt
