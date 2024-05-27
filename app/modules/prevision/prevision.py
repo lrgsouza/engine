@@ -4,7 +4,7 @@ from googletrans import Translator
 translator = Translator()
 
 # Substitua 'sua_chave_api_aqui' pela chave de API que você obteve do OpenWeather
-API_KEY = '47252a9b54a83e7bf4da95c7505c5d02'
+API_KEY = '-'
 # city_id = '3449847' #Cidade de Santa Rita
 
 def prevision(city_id):
