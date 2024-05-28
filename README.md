@@ -17,25 +17,28 @@ Para rodar a aplicação localmente, utilizando seu próprio servidor no Discord
     5. Na página a seguir, permita que o Bot acesse seu servidor.
 
 2. Rodando a aplicação localmente
-    1. Rode o comando:
+    1. Exporte o Discord Token como variável ambiente:
         ```sh
         export DISCORD_TOKEN="discord-token-aqui"
         ```
 
-    2. Rode o arquivo [/app/main.py](./app/main.py)
+    2. Rode o arquivo [/app/main.py](./app/main.py):
+        ```sh
+        python ./app/main.py
+        ```
 
     3. Utilize os comandos no canal designado, definido como "recursos" por padrão, mas que pode ser modificado em [/app/variables.py](./app/variables.py)
 
 3. Rodando a aplicação usando Docker Compose
 
     1. Crie um arquivo .env, dessa forma:
-        ```python
+        ```sh
         DISCORD_TOKEN="discord-token-aqui"
         ```
 
     2. Certifique-se de ter instalado Docker e Docker Compose em seu computador. [Saiba mais](https://docs.docker.com/compose/install/).
 
-    3. Rode o comando
+    3. Execute o Docker Compose
         ```sh
         docker-compose up --build
         ```
