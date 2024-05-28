@@ -1,7 +1,24 @@
 # Discord Tool Bot
 > Teste a aplicação na íntegra: [Discord Server](https://discord.gg/GbsgJEeK2k)
 
-## Como rodar a aplicação
+## Testes
+Para rodar os testes do Discord Tool Bot, siga os passos a seguir:
+1. Instale as dependências:
+    ```sh
+    pip install -r requirements.txt
+    ```
+
+2. Entre na pasta [app/](./app/):
+    ```sh
+    cd app
+    ```
+
+3. Rode os testes:
+    ```sh
+    coverage run -m unittest discover
+    ```
+
+## Executando a aplicação
 
 Para rodar a aplicação localmente, utilizando seu próprio servidor no Discord:
 
@@ -17,17 +34,22 @@ Para rodar a aplicação localmente, utilizando seu próprio servidor no Discord
     5. Na página a seguir, permita que o Bot acesse seu servidor.
 
 2. Rodando a aplicação localmente
-    1. Exporte o Discord Token como variável ambiente:
+    1. Instale as dependências:
+        ```sh
+        pip install -r requirements.txt
+        ```
+
+    2. Exporte o Discord Token como variável ambiente:
         ```sh
         export DISCORD_TOKEN="discord-token-aqui"
         ```
 
-    2. Rode o arquivo [/app/main.py](./app/main.py):
+    3. Rode o arquivo [/app/main.py](./app/main.py):
         ```sh
         python ./app/main.py
         ```
 
-    3. Utilize os comandos no canal designado, definido como "recursos" por padrão, mas que pode ser modificado em [/app/variables.py](./app/variables.py)
+    4. Utilize os comandos no canal designado, definido como "recursos" por padrão, mas que pode ser modificado em [/app/variables.py](./app/variables.py)
 
 3. Rodando a aplicação usando Docker Compose
 
@@ -43,8 +65,7 @@ Para rodar a aplicação localmente, utilizando seu próprio servidor no Discord
         docker-compose up --build
         ```
 
-
-
+    4. Utilize os comandos no canal designado.
 
 # Unit Test - Overview
 ## Organização de Testes em Classes
