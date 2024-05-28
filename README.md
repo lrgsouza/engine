@@ -18,6 +18,20 @@ Para rodar os testes do Discord Tool Bot, siga os passos a seguir:
     ```sh
     coverage run -m unittest discover
     ```
+4. Salvando a cobertura de código em txt:
+    ```sh
+    coverage report > coverage.txt
+    ```
+
+5. Gerando o relatório de cobertura de código em html:
+    ```sh
+    python -m coverage html
+    ```
+6. Gerando resultado dos testes utilizando o unittest-xml-reporting:
+    ```sh
+    python -m xmlrunner discover
+    ```
+
 
 ## Executando a aplicação
 
@@ -43,6 +57,7 @@ Para rodar a aplicação localmente, utilizando seu próprio servidor no Discord
     2. Exporte o Discord Token como variável ambiente:
         ```sh
         export DISCORD_TOKEN="discord-token-aqui"
+        export TEMPO_API_KEY="sua-chave-aqui"
         ```
 
     3. Rode o arquivo [/app/main.py](./app/main.py):
@@ -57,6 +72,7 @@ Para rodar a aplicação localmente, utilizando seu próprio servidor no Discord
     1. Crie um arquivo .env, dessa forma:
         ```sh
         DISCORD_TOKEN="discord-token-aqui"
+        TEMPO_API_KEY="sua-chave-aqui"
         ```
 
     2. Certifique-se de ter instalado Docker e Docker Compose em seu computador. [Saiba mais](https://docs.docker.com/compose/install/).
