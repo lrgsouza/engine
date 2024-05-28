@@ -14,7 +14,6 @@ class Prevision:
     def prevision(self):
     # Construa o URL da API com sua chave e a cidade desejada
         url = f'https://api.openweathermap.org/data/2.5/weather?id={self.city_id}&appid={tempo_api_key}&units=metric'
-        print(url)
         # Faça a requisição à API
         res = requests.get(url)
 
@@ -27,11 +26,7 @@ class Prevision:
             description = dados['weather'][0]['description']
             temperature = dados['main']['temp']
             # description_pt = translator.translate(description, dest='pt', src='en').text
-            
-            
-            print(f'Condição: {description}, Temperatura: {temperature}ºC')
             return (f'Condition: {description}, Temperature: {temperature}ºC')
         else:
-            print(f'\n Não foi possível obter a previsão do tempo.\n')
             return (f'\n Não foi possível obter a previsão do tempo.\n')
       
