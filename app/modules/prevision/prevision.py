@@ -1,5 +1,6 @@
 import requests
 from googletrans import Translator
+import os
 
 
 translator = Translator()
