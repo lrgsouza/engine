@@ -19,12 +19,12 @@ class Graph:
         if self.b == 0 and self.c == 0:
             return f"y = {self.a}x²", "segundo"
         if self.a == 0:
-            return f"y = {self.b}x + {self.c}", "primeiro"
+            return f"y = {self.b}x + ({self.c})", "primeiro"
         if self.b == 0:
-            return f"y = {self.a}x² + {self.c}", "segundo"
+            return f"y = {self.a}x² + ({self.c})", "segundo"
         if self.c == 0:
-            return f"y = {self.a}x² + {self.b}x", "segundo"
-        return f"y = {self.a}x² + {self.b}x + {self.c}" , "segundo"
+            return f"y = {self.a}x² + ({self.b}x)", "segundo"
+        return f"y = {self.a}x² + ({self.b}x) + ({self.c})" , "segundo"
 
     def generate_graph(self):
         x = np.linspace(-10, 10, 400)

@@ -66,6 +66,10 @@ def suite():
     suite.addTest(Graph('testGenerateSecondDegreeGraph'))
     suite.addTest(Graph('testLegendZero'))
     suite.addTest(Graph('testLegendFirstDegree'))
+    suite.addTest(Graph('testTrigonometricSinGraph'))
+    suite.addTest(Graph('testTrigonometricCosGraph'))
+    suite.addTest(Graph('testTrigonometricTanGraph'))
+    suite.addTest(Graph('testTrigonometricInvalidGraph'))
     return suite
 
 if __name__ == '__main__':
