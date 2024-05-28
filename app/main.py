@@ -108,4 +108,18 @@ async def distance(ctx, origin: str, dest: str, value: float):
     result = units.distance(origin, dest, value)
     await ctx.respond(f'{value} {origin} = {result} {dest}')
 
-bot.run(token_discord)
+def run_bot():
+    bot.run(token_discord)
+
+from healt_check import run_flask
+import threading
+
+if __name__ == "__main__":
+    bot_thread = threading.Thread(target=run_bot)
+    flask_thread = threading.Thread(target=run_flask)
+
+    bot_thread.start()
+    flask_thread.start()
+
+    bot_thread.join()
+    flask_thread.join()

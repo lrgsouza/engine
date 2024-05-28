@@ -32,3 +32,4 @@ traceback2==1.4.0
 urllib3==2.2.1
 yarl==1.9.4
 zope.interface==6.3
+Flask==3.0.3
