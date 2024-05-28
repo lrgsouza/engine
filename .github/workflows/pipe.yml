@@ -22,15 +22,27 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-      - name: Run tests with coverage
+      - name: Run tests with coverage and xml report
         env:
           DISCORD_TOKEN: ${{secrets.DISCORD_TOKEN}}
         run: |
           cd app
           coverage run -m unittest discover
-          coverage report
-      - name: Save test results
+          coverage report > coverage.txt
+          python -m coverage html
+          python -m xmlrunner discover
+      - name: Save coverage results
         uses: actions/upload-artifact@v3
         with:
-          name: Test results coverage
-          path: app/output.txt app/.coverage
+          name: coverage-report
+          path: app/coverage.txt
+      - name: Save coverage html results
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-html-report
+          path: app/htmlcov
+      - name: Upload xml report
+        uses: actions/upload-artifact@v3
+        with:
+          name: xml-report
+          path: '**/*.xml'
