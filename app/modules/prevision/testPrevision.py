@@ -1,12 +1,12 @@
 import unittest
 from unittest.mock import patch, Mock
-from prevision import Prevision 
+from modules.prevision.prevision import Prevision 
 import os
 import xmlrunner
 
 class TestPrevision(unittest.TestCase):
-    @patch('prevision.requests.get')
-    @patch('prevision.Translator.translate')
+    @patch('modules.prevision.prevision.requests.get')
+    @patch('modules.prevision.prevision.Translator.translate')
     def test_prevision_success(self, mock_translate, mock_get):
         # Mock da resposta da API do OpenWeatherMap
         mock_response = Mock()
@@ -28,7 +28,7 @@ class TestPrevision(unittest.TestCase):
         expected_result = 'Condition: clear sky, Temperature: 25ºC'
         self.assertEqual(result, expected_result)
 
-    @patch('prevision.requests.get')
+    @patch('modules.prevision.prevision.requests.get')
     def test_prevision_failure(self, mock_get):
         # Mock de uma resposta de falha da API
         mock_response = Mock()
@@ -43,7 +43,7 @@ class TestPrevision(unittest.TestCase):
         expected_result = '\n Não foi possível obter a previsão do tempo.\n'
         self.assertEqual(result, expected_result)
     
-    @patch('prevision.requests.get')
+    @patch('modules.prevision.prevision.requests.get')
     def test_prevision_invalid_city(self, mock_get):
         # Mock de uma resposta indicando que a cidade é inválida
         mock_response = Mock()
