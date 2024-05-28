@@ -5,6 +5,7 @@ from modules.dice.dice import Dice
 from modules.graph.graph import Graph
 from modules.currency.currency import Currency
 from modules.prevision.prevision import prevision
+from modules.units.units import Units
 from variables import *
 from discord_function import *
 
@@ -81,5 +82,51 @@ async def prevision_command(ctx: discord.ApplicationContext, city_code: str):
     result = prevision(city_code)
     await ctx.respond(result)
 
+@bot.slash_command(name="convert_weight", description="Convert weight units", pass_context=True, guild_ids=[guild_id])
+@option("origin", str, description="Origin unit.", choices=Units.weight_units())
+@option("dest", str, description="Destination unit.", choices=Units.weight_units())
+@option("value", float, description="Value to convert.")
+@is_in_channel()
+async def weight(ctx, origin: str, dest: str, value: float):
+    await ctx.defer()
+    units = Units()
+    result = units.weight(origin, dest, value)
+    await ctx.respond(f'{value} {origin} = {result} {dest}')
 
-bot.run(token_discord)
+@bot.slash_command(name="convert_temperature", description="Convert temperature units", pass_context=True, guild_ids=[guild_id])
+@option("origin", str, description="Origin unit.", choices=Units.temperature_units())
+@option("dest", str, description="Destination unit.", choices=Units.temperature_units())
+@option("value", float, description="Value to convert.")
+@is_in_channel()
+async def temperature(ctx, origin: str, dest: str, value: float):
+    await ctx.defer()
+    units = Units()
+    result = units.temperature(origin, dest, value)
+    await ctx.respond(f'{value} {origin} = {result} {dest}')
+
+@bot.slash_command(name="convert_distance", description="Convert distance units", pass_context=True, guild_ids=[guild_id])
+@option("origin", str, description="Origin unit.", choices=Units.distance_units())
+@option("dest", str, description="Destination unit.", choices=Units.distance_units())
+@option("value", float, description="Value to convert.")
+@is_in_channel()
+async def distance(ctx, origin: str, dest: str, value: float):
+    await ctx.defer()
+    units = Units()
+    result = units.distance(origin, dest, value)
+    await ctx.respond(f'{value} {origin} = {result} {dest}')
+
+def run_bot():
+    bot.run(token_discord)
+
+from healt_check import run_flask
+import threading
+
+if __name__ == "__main__":
+    bot_thread = threading.Thread(target=run_bot)
+    flask_thread = threading.Thread(target=run_flask)
+
+    bot_thread.start()
+    flask_thread.start()
+
+    bot_thread.join()
+    flask_thread.join()
