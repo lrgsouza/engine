@@ -1,3 +1,4 @@
+[![Run tests](https://github.com/lrgsouza/engine/actions/workflows/pipe.yml/badge.svg)](https://github.com/lrgsouza/engine/actions/workflows/pipe.yml)
 # Discord Tool Bot
 > Teste a aplicação na íntegra: [Discord Server](https://discord.gg/GbsgJEeK2k)
 
