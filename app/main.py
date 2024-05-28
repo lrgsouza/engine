@@ -4,7 +4,7 @@ from discord import option
 from modules.dice.dice import Dice
 from modules.graph.graph import Graph
 from modules.currency.currency import Currency
-from modules.prevision.prevision import prevision
+from modules.prevision.prevision import Prevision
 from modules.units.units import Units
 from variables import *
 from discord_function import *
@@ -47,7 +47,7 @@ async def graph(ctx, trigonometric: str):
     os.remove(f'grafico_funcao_{trigonometric}.png')  # Apaga a imagem
     await ctx.respond(f"Grafico de {trigonometric} gerado com sucesso!")
 
-@bot.slash_command(name="dice", description="Get a image for y=2x+7", pass_context=True, guild_ids=[guild_id])
+@bot.slash_command(name="dice", description="Roll a dice", pass_context=True, guild_ids=[guild_id])
 @is_in_channel()
 async def graph(ctx):
     await ctx.defer()
@@ -76,16 +76,24 @@ async def currency(ctx, origin: str, target: str):
     formatted_value = "{:.8f}".format(value).rstrip('0').rstrip('.')
     await ctx.respond(f'# {Currency.emojis()[origin]} {origin} = **{formatted_value}** {target} {Currency.emojis()[target]}')
 
-@bot.slash_command(name="prevision", description="Obter a previsão do tempo para uma cidade", guild_ids=[guild_id])
-@option("city_code", str, description="City code.", choices=['3449847','3452525','3460834'])
+@bot.slash_command(name="prevision", description="Obter a previsão do tempo para uma cidade", pass_context=True, guild_ids=[guild_id])
+@option("cityname", str, description="Nome da Cidade", choices=['Santa Rita do Sapucaí','Pouso Alegre','Itajubá'], required=True)
 @is_in_channel()
-async def prevision_command(ctx, city_code: str):
+async def prevision_command(ctx, cityname: str):
     await ctx.defer()
+    cityDict = {
+        'Santa Rita do Sapucaí': '3449847',
+        'Pouso Alegre': '3452525',
+        'Itajubá': '3460834'
+    }
+    citycode = cityDict[cityname]
+    prevision = Prevision(citycode)
     try:
-        result = prevision(city_code)
+        result = prevision.prevision()
+        await ctx.respond(result)
     except Exception as e:
         result = str(e)
-    await ctx.respond(result)
+        await ctx.respond(result)
 
 @bot.slash_command(name="convert_weight", description="Convert weight units", pass_context=True, guild_ids=[guild_id])
 @option("origin", str, description="Origin unit.", choices=Units.weight_units())
