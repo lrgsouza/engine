@@ -1,4 +1,49 @@
-# Unit Test
+# Discord Tool Bot
+> Teste a aplicação na íntegra: [Discord Server](https://discord.gg/GbsgJEeK2k)
+
+## Como rodar a aplicação
+
+Para rodar a aplicação localmente, utilizando seu próprio servidor no Discord:
+
+1. Criação do Bot do Discord
+    1. Crie um servidor do Discord.
+
+    2. Crie uma nova aplicação do Discord, em [Discord Developer Portal](https://discord.com/developers/applications)
+
+    3. Na seção `Bot`, copie o token do Bot em `Token > Reset Token`
+
+    4. Em `Installation`, selecione o Authorization Method `Guild Install` e Install Link `Discord Provided Link`. Copie a url e acesse no seu navegador.
+
+    5. Na página a seguir, permita que o Bot acesse seu servidor.
+
+2. Rodando a aplicação localmente
+    1. Rode o comando:
+        ```sh
+        export DISCORD_TOKEN="discord-token-aqui"
+        ```
+
+    2. Rode o arquivo [/app/main.py](./app/main.py)
+
+    3. Utilize os comandos no canal designado, definido como "recursos" por padrão, mas que pode ser modificado em [/app/variables.py](./app/variables.py)
+
+3. Rodando a aplicação usando Docker Compose
+
+    1. Crie um arquivo .env, dessa forma:
+        ```python
+        DISCORD_TOKEN="discord-token-aqui"
+        ```
+
+    2. Certifique-se de ter instalado Docker e Docker Compose em seu computador. [Saiba mais](https://docs.docker.com/compose/install/).
+
+    3. Rode o comando
+        ```sh
+        docker-compose up --build
+        ```
+
+
+
+
+# Unit Test - Overview
 ## Organização de Testes em Classes
 É comum organizar os testes em classes, onde cada classe herda de `unittest.TestCase`. Isso facilita a organização e execução dos testes.
 ```py
