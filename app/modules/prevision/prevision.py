@@ -4,11 +4,11 @@ from googletrans import Translator
 
 translator = Translator()
 
-API_KEY = ''
+tempo_api_key = os.getenv('TEMPO_API_KEY', "")
 
 def prevision(city_id: str):
 # Construa o URL da API com sua chave e a cidade desejada
-    url = f'https://api.openweathermap.org/data/2.5/weather?id={city_id}&appid={API_KEY}&units=metric'
+    url = f'https://api.openweathermap.org/data/2.5/weather?id={city_id}&appid={tempo_api_key}&units=metric'
 
     # Faça a requisição à API
     res = requests.get(url)
