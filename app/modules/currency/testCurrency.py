@@ -1,5 +1,7 @@
 import unittest
-from modules.currency.currency import Currency
+from modules.currency.currency import Currency 
+import xmlrunner
+import os
 
 from unittest_parametrize import parametrize
 from unittest_parametrize import ParametrizedTestCase
@@ -65,4 +67,10 @@ class TestCurrency(ParametrizedTestCase):
 
 
 if __name__ == '__main__':
-    unittest.main()
+    # Ensure the directory exists
+    output_dir = 'test-reports'
+    os.makedirs(output_dir, exist_ok=True)
+    
+    # Run the tests
+    runner = xmlrunner.XMLTestRunner(output=output_dir)
+    unittest.main(testRunner=runner)

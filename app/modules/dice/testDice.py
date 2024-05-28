@@ -1,5 +1,6 @@
 
-
+import xmlrunner
+import os
 import unittest
 from modules.dice.dice import Dice
 
@@ -34,5 +35,10 @@ def suite():
     return suite
 
 if __name__ == '__main__':
-    runner = unittest.TextTestRunner()
-    runner.run(suite())
+    # Ensure the directory exists
+    output_dir = 'test-reports'
+    os.makedirs(output_dir, exist_ok=True)
+    
+    # Run the tests
+    runner = xmlrunner.XMLTestRunner(output=output_dir)
+    unittest.main(testRunner=runner)

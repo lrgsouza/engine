@@ -2,8 +2,6 @@ name: Run tests
 
 on:
   push:
-    branches:
-      - main
   pull_request:
     branches:
       - main
@@ -29,7 +27,7 @@ jobs:
           DISCORD_TOKEN: ${{secrets.DISCORD_TOKEN}}
         run: |
           cd app
-          coverage run -m unittest discover -p "*.py" | tee output.txt
+          coverage run -m unittest discover
           coverage report
       - name: Save test results
         uses: actions/upload-artifact@v3
