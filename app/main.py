@@ -77,9 +77,14 @@ async def currency(ctx, origin: str, target: str):
     await ctx.respond(f'# {Currency.emojis()[origin]} {origin} = **{formatted_value}** {target} {Currency.emojis()[target]}')
 
 @bot.slash_command(name="prevision", description="Obter a previsão do tempo para uma cidade", guild_ids=[guild_id])
-async def prevision_command(ctx: discord.ApplicationContext, city_code: str):
+@option("city_code", str, description="City code.", choices=['3449847','3452525','3460834'])
+@is_in_channel()
+async def prevision_command(ctx, city_code: str):
     await ctx.defer()
-    result = prevision(city_code)
+    try:
+        result = prevision(city_code)
+    except Exception as e:
+        result = str(e)
     await ctx.respond(result)
 
 @bot.slash_command(name="convert_weight", description="Convert weight units", pass_context=True, guild_ids=[guild_id])
