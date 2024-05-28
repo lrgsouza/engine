@@ -1,4 +1,74 @@
-# Unit Test
+[![Run tests](https://github.com/lrgsouza/engine/actions/workflows/pipe.yml/badge.svg)](https://github.com/lrgsouza/engine/actions/workflows/pipe.yml)
+# Discord Tool Bot
+> Teste a aplicação na íntegra: [Discord Server](https://discord.gg/GbsgJEeK2k)
+
+## Testes
+Para rodar os testes do Discord Tool Bot, siga os passos a seguir:
+1. Instale as dependências:
+    ```sh
+    pip install -r requirements.txt
+    ```
+
+2. Entre na pasta [app/](./app/):
+    ```sh
+    cd app
+    ```
+
+3. Rode os testes:
+    ```sh
+    coverage run -m unittest discover
+    ```
+
+## Executando a aplicação
+
+Para rodar a aplicação localmente, utilizando seu próprio servidor no Discord:
+
+1. Criação do Bot do Discord
+    1. Crie um servidor do Discord.
+
+    2. Crie uma nova aplicação do Discord, em [Discord Developer Portal](https://discord.com/developers/applications)
+
+    3. Na seção `Bot`, copie o token do Bot em `Token > Reset Token`
+
+    4. Em `Installation`, selecione o Authorization Method `Guild Install` e Install Link `Discord Provided Link`. Copie a url e acesse no seu navegador.
+
+    5. Na página a seguir, permita que o Bot acesse seu servidor.
+
+2. Rodando a aplicação localmente
+    1. Instale as dependências:
+        ```sh
+        pip install -r requirements.txt
+        ```
+
+    2. Exporte o Discord Token como variável ambiente:
+        ```sh
+        export DISCORD_TOKEN="discord-token-aqui"
+        ```
+
+    3. Rode o arquivo [/app/main.py](./app/main.py):
+        ```sh
+        python ./app/main.py
+        ```
+
+    4. Utilize os comandos no canal designado, definido como "recursos" por padrão, mas que pode ser modificado em [/app/variables.py](./app/variables.py)
+
+3. Rodando a aplicação usando Docker Compose
+
+    1. Crie um arquivo .env, dessa forma:
+        ```sh
+        DISCORD_TOKEN="discord-token-aqui"
+        ```
+
+    2. Certifique-se de ter instalado Docker e Docker Compose em seu computador. [Saiba mais](https://docs.docker.com/compose/install/).
+
+    3. Execute o Docker Compose
+        ```sh
+        docker-compose up --build
+        ```
+
+    4. Utilize os comandos no canal designado.
+
+# Unit Test - Overview
 ## Organização de Testes em Classes
 É comum organizar os testes em classes, onde cada classe herda de `unittest.TestCase`. Isso facilita a organização e execução dos testes.
 ```py
