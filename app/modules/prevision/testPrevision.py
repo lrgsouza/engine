@@ -1,42 +1,47 @@
-import requests
 import unittest
-from unittest.mock import patch
-from googletrans import Translator
-import prevision  # substitua 'prevision' pelo nome do seu arquivo de código
+from unittest.mock import patch, Mock
+import requests
+from prevision import prevision 
 
-class TestPrevisaoDoTempo(unittest.TestCase):
-  @patch('prevision.requests.get')
-  @patch.object(Translator, 'translate')
-  def test_prevision_sucesso(self, mock_translate, mock_get):
-      # Configura a resposta mockada para requests.get
-      mock_response = mock_get.return_value
-      mock_response.status_code = 200
-      mock_response.json.return_value = {
-          'weather': [{'description': 'clear sky'}],
-          'main': {'temp': 25}
-      }
+class TestPrevision(unittest.TestCase):
+    @patch('prevision.requests.get')
+    @patch('prevision.Translator.translate')
+    def test_prevision_success(self, mock_translate, mock_get):
+        # Mock da resposta da API do OpenWeatherMap
+        mock_response = Mock()
+        mock_response.status_code = 200
+        mock_response.json.return_value = {
+            'weather': [{'description': 'clear sky'}],
+            'main': {'temp': 25}
+        }
+        mock_get.return_value = mock_response
+        
+        # Mock da resposta do Google Translate
+        mock_translate.return_value = Mock(text='céu limpo')
 
-      # Configura a resposta mockada para Translator.translate
-      mock_translate.return_value.text = 'céu claro'
+        # Chamada da função
+        with patch('builtins.print') as mock_print:
+            prevision(123456)  # Substitua 123456 por um ID de cidade válido de teste
 
-      # Chame a função a ser testada
-      resultado = prevision('fake_city_id')
+            # Verifique se a tradução foi chamada corretamente
+            mock_translate.assert_called_once_with('clear sky', dest='pt', src='en')
+            
+            # Verifique se a função print foi chamada com os valores esperados
+            mock_print.assert_called_once_with('Condição: céu limpo, Temperatura: 25ºC')
 
-      # Verifique se o resultado está correto
-      self.assertEqual(resultado, 'Condição: céu claro, Temperatura: 25ºC')
+    @patch('prevision.requests.get')
+    def test_prevision_failure(self, mock_get):
+        # Mock de uma resposta de falha da API
+        mock_response = Mock()
+        mock_response.status_code = 404
+        mock_get.return_value = mock_response
 
-  @patch('prevision.requests.get')
-  def test_prevision_falha(self, mock_get):
-      # Configura a resposta mockada para requests.get
-      mock_response = mock_get.return_value
-      mock_response.status_code = 404
-      mock_response.text = 'City not found'
+        # Chamada da função
+        with patch('builtins.print') as mock_print:
+            prevision(123456)  # Substitua 123456 por um ID de cidade válido de teste
 
-      # Chame a função a ser testada
-      resultado = prevision('100000100000000000')
-
-      # Verifique se o resultado está correto para a falha
-      self.assertEqual(resultado, '\n Não foi possível obter a previsão do tempo.\n',)
+            # Verifique se a função print foi chamada com a mensagem de erro esperada
+            mock_print.assert_called_once_with('\n Não foi possível obter a previsão do tempo.\n')
 
 if __name__ == '__main__':
     unittest.main()
