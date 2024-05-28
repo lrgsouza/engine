@@ -1,20 +1,27 @@
 [![Run tests](https://github.com/lrgsouza/engine/actions/workflows/pipe.yml/badge.svg)](https://github.com/lrgsouza/engine/actions/workflows/pipe.yml)
+
 # Discord Tool Bot
+>
 > Teste a aplicação na íntegra: [Discord Server](https://discord.gg/GbsgJEeK2k)
 
 ## Testes
+
 Para rodar os testes do Discord Tool Bot, siga os passos a seguir:
+
 1. Instale as dependências:
+
     ```sh
     pip install -r requirements.txt
     ```
 
 2. Entre na pasta [app/](./app/):
+
     ```sh
     cd app
     ```
 
 3. Rode os testes:
+
     ```sh
     coverage run -m unittest discover
     ```
@@ -36,16 +43,19 @@ Para rodar a aplicação localmente, utilizando seu próprio servidor no Discord
 
 2. Rodando a aplicação localmente
     1. Instale as dependências:
+
         ```sh
         pip install -r requirements.txt
         ```
 
     2. Exporte o Discord Token como variável ambiente:
+
         ```sh
         export DISCORD_TOKEN="discord-token-aqui"
         ```
 
     3. Rode o arquivo [/app/main.py](./app/main.py):
+
         ```sh
         python ./app/main.py
         ```
@@ -55,6 +65,7 @@ Para rodar a aplicação localmente, utilizando seu próprio servidor no Discord
 3. Rodando a aplicação usando Docker Compose
 
     1. Crie um arquivo .env, dessa forma:
+
         ```sh
         DISCORD_TOKEN="discord-token-aqui"
         ```
@@ -62,6 +73,7 @@ Para rodar a aplicação localmente, utilizando seu próprio servidor no Discord
     2. Certifique-se de ter instalado Docker e Docker Compose em seu computador. [Saiba mais](https://docs.docker.com/compose/install/).
 
     3. Execute o Docker Compose
+
         ```sh
         docker-compose up --build
         ```
@@ -69,8 +81,11 @@ Para rodar a aplicação localmente, utilizando seu próprio servidor no Discord
     4. Utilize os comandos no canal designado.
 
 # Unit Test - Overview
+
 ## Organização de Testes em Classes
+
 É comum organizar os testes em classes, onde cada classe herda de `unittest.TestCase`. Isso facilita a organização e execução dos testes.
+
 ```py
 import unittest
 
@@ -91,7 +106,9 @@ class TestStringMethods(unittest.TestCase):
 ```
 
 ## SetUp e TearDown
+
 Estes são métodos especiais que são executados antes e depois de cada método de teste. Eles são úteis para configurar o ambiente de teste e limpar recursos após a execução do teste.
+
 ```py
 import unittest
 
@@ -116,7 +133,9 @@ class TestMathFunctions(unittest.TestCase):
 ```
 
 ## Testes Parametrizados
+
 Você pode usar o método `@unittest.parameterized`.parameterized para executar um teste com diferentes conjuntos de dados.
+
 ```py
 import unittest
 from parameterized import parameterized
@@ -133,7 +152,9 @@ class TestMathFunctions(unittest.TestCase):
 ```
 
 ## Mocks e Stubs
+
 Você pode usar bibliotecas como `unittest.mock` para criar mocks e stubs, o que é útil para isolar o código em teste e simular o comportamento de dependências externas.
+
 ```py
 import unittest
 from unittest.mock import Mock
@@ -150,8 +171,33 @@ class TestDependency(unittest.TestCase):
         self.assertEqual(result, 20)
 ```
 
+### Usando patch
+A função patch do unittest.mock é frequentemente usada para substituir objetos reais por mocks em tempo de execução durante os testes. Você pode usar patch como um decorador ou como um gerenciador de contexto.
+
+~~~py
+from unittest.mock import patch
+
+@patch('path.to.your.module.requests.get')
+def test_some_function(mock_get):
+    # Configurando o mock
+    mock_response = Mock()
+    mock_response.status_code = 200
+    mock_response.json.return_value = {'key': 'value'}
+    mock_get.return_value = mock_response
+
+    # Chame a função que você está testando
+    result = some_function()
+
+    # Verifique se o mock foi chamado como esperado
+    mock_get.assert_called_once_with('http://example.com')
+    # Verifique o resultado
+    assert result == 'expected result'
+~~~
+
 ## Execução Condicional de Testes
+
 Você pode usar `@unittest.skip` para pular a execução de um teste.
+
 ```py
 import unittest
 
@@ -165,9 +211,11 @@ class TestMathFunctions(unittest.TestCase):
         result = 5 - 2
         self.assertEqual(result, 3)
 ```
+
 `@unittest.skipIf()` e `@unittest.skipUnless()` são usados para pular a execução do teste com base em condições específicas.
 
 `@unittest.skipIf()`: Pula a execução de um teste se uma condição específica for verdadeira.
+
 ```py
 import unittest
 import sys
@@ -178,7 +226,9 @@ class TestMathFunctions(unittest.TestCase):
         # Teste para uma funcionalidade que só é suportada no Linux
         self.assertTrue(True)
 ```
+
 `@unittest.skipUnless()`: Pula a execução de um teste a menos que uma condição específica seja verdadeira
+
 ```py
 import unittest
 import os
@@ -215,56 +265,72 @@ class TestMathFunctions(unittest.TestCase):
 21. `assertCountEqual(a, b)`: Verifica se `a` e `b` contêm os mesmos elementos, independentemente da ordem.
 22. `assertMultiLineEqual(a, b)`: Verifica se `a` e `b` são iguais, mesmo se forem strings de várias linhas.
 
-
 ## Outros
 
 ### Integração com o Ecossistema Python
+
 O `unittest` é parte integrante da biblioteca padrão do Python, o que significa que não requer instalação adicional e está prontamente disponível para qualquer projeto Python.
 
 ### Test Discovery
+
 O `unittest` inclui um recurso de descoberta de testes, o que significa que você pode executar todos os testes em um diretório com um único comando. Isso é útil para projetos maiores com muitos testes.
 
-### Integração com Outras Ferramentas:
+### Integração com Outras Ferramentas
+
 O unittest se integra bem com outras ferramentas de teste e cobertura de código, como `coverage`, `pytest`, `nose`, entre outras, permitindo uma cobertura de teste eficaz e análise de cobertura de código.
 
 - #### pytest
+
     O `unittest` pode ser facilmente integrado com o `pytest`, que é uma estrutura de teste mais flexível e poderosa. Você pode simplesmente executar o `pytest` em seu diretório de teste, e ele descobrirá e executará automaticamente todos os testes unittest presentes.Exemplo de comando para executar testes unittest com `pytest`:
+
     ```py
     pytest
     ```
 
 - #### coverage
+
     O `coverage` é uma ferramenta para medir a cobertura de código em Python. Você pode usar o `coverage` junto com o unittest para medir a cobertura de código de seus testes.Exemplo de comando para executar testes unittest com `coverage`:
+
     ```py
     coverage run -m unittest discover
     ```
+
     Em seguida, você pode gerar relatórios de cobertura usando:
+
     ```py
     coverage report
     ```
 
 - #### nose
+
     O `nose` é outro framework de teste popular para Python, que pode ser usado como uma alternativa ao `unittest`. Ele fornece recursos adicionais e pode ser mais conveniente para algumas situações.Exemplo de comando para executar testes `unittest` com `nose`:
+
     ```py
     nosetests
     ```
 
 ### Assertion Library Integrada
+
 O `unittest` inclui um conjunto robusto de métodos de assert (como `assertEqual`, `assertTrue`, `assertFalse`, etc.) para verificar os resultados dos testes de forma clara e legível.
 
 ### Flexibilidade e Extensibilidade
+
 Embora o `unittest` forneça uma estrutura básica para testes, ele também é flexível o suficiente para suportar práticas avançadas, como testes parametrizados, mocks e stubs, configuração e limpeza de testes, entre outros.
 
 ### Suporte a Plugins
+
 Embora seja menos comum do que em outras ferramentas de teste como `pytest`, o `unittest` também oferece suporte a plugins que podem estender sua funcionalidade e permitir recursos adicionais, como relatórios personalizados, geração de dados de teste, etc.
 
 Um exemplo de plugin para o unittest é o `unittest-xml-reporting`, que gera relatórios de teste no formato XML.
 
 1. Primeiro, instale o pacote `unittest-xml-reporting` via pip:
+
     ```py
     pip install unittest-xml-reporting
     ```
+
 2. Em seguida, você pode usar o plugin no seu script de teste `unittest`:
+
     ```py
     import unittest
     import xmlrunner
@@ -282,14 +348,15 @@ Um exemplo de plugin para o unittest é o `unittest-xml-reporting`, que gera rel
         runner = xmlrunner.XMLTestRunner(output='test-reports')
         unittest.main(testRunner=runner)
     ```
+
     Neste exemplo, `xmlrunner.XMLTestRunner` é usado como o test runner para executar os testes e gerar relatórios no formato XML. O argumento `output` especifica o diretório onde os relatórios XML serão salvos.
 3. Execute o script de teste como você faria normalmente. Os relatórios XML serão gerados no diretório especificado
 
 # Funções Bot Discord
+
 |Fun. Discord|Desc|Fun. Backend|Libs e APIs|Fun. Teste|Assert|
 |:--:|:--:|:--:|:--:|:--:|:--:|
 |/graph (function)|Gera gráficos de funções|validateFunction, defineDegree, pointsGen, graphGen| numpy, pyplot|testValidateFunction, testDefineDegree, testPointsGen, testGraphGen|assertIsNotNone, assertEquals, assertIn, assertIsInstance|
 |/trigraph (sen\|cos\|tan)|Gera funções trigonométricas|pointsGen, graphGen|numpy, pyplot|testPointsGen, testGraphGen|assertIn, assertIsInstance|
 |/dice|Gera 1 número aleatório (1-6)|roll|random|testDiceGenProbability, testDiceOutOfRange|assertGreater, assertIn|
 |/currency (origin) (destiny)|Mostra a conversão de moedas (USD, BRL, EUR, JPY, CHF, BTC, ETH, USDC, SOL)|exchange||testOutput|assertRegex|
-
