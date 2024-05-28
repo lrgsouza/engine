@@ -1,4 +1,6 @@
 import unittest
+import xmlrunner
+import os
 from unittest_parametrize import parametrize
 from unittest_parametrize import ParametrizedTestCase
 from unittest.mock import patch
@@ -64,4 +66,10 @@ class TestUnits(ParametrizedTestCase):
         self.assertEqual(result, expected_result)
 
 if __name__ == '__main__':
-    unittest.main()
+    # Ensure the directory exists
+    output_dir = 'test-reports'
+    os.makedirs(output_dir, exist_ok=True)
+    
+    # Run the tests
+    runner = xmlrunner.XMLTestRunner(output=output_dir)
+    unittest.main(testRunner=runner)

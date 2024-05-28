@@ -4,6 +4,7 @@ from discord import option
 from modules.dice.dice import Dice
 from modules.graph.graph import Graph
 from modules.currency.currency import Currency
+from modules.prevision.prevision import prevision
 from modules.units.units import Units
 from variables import *
 from discord_function import *
@@ -74,6 +75,12 @@ async def currency(ctx, origin: str, target: str):
     
     formatted_value = "{:.8f}".format(value).rstrip('0').rstrip('.')
     await ctx.respond(f'# {Currency.emojis()[origin]} {origin} = **{formatted_value}** {target} {Currency.emojis()[target]}')
+
+@bot.slash_command(name="prevision", description="Obter a previsão do tempo para uma cidade", guild_ids=[guild_id])
+async def prevision_command(ctx: discord.ApplicationContext, city_code: str):
+    await ctx.defer()
+    result = prevision(city_code)
+    await ctx.respond(result)
 
 @bot.slash_command(name="convert_weight", description="Convert weight units", pass_context=True, guild_ids=[guild_id])
 @option("origin", str, description="Origin unit.", choices=Units.weight_units())

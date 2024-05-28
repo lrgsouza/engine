@@ -22,6 +22,7 @@ help_msg = """
 /dice - Roll a dice
 /graph - Generate a graph
 /currency - Get currency value
+/prevision - Get prevision
 /exit - Exit the bot
 """
 
