@@ -1,6 +1,8 @@
 import unittest
 from unittest.mock import patch, Mock
 from prevision import Prevision 
+import os
+import xmlrunner
 
 class TestPrevision(unittest.TestCase):
     @patch('prevision.requests.get')
@@ -61,4 +63,10 @@ class TestPrevision(unittest.TestCase):
         self.assertEqual(result, expected_result)
 
 if __name__ == '__main__':
-    unittest.main()
+    # Ensure the directory exists
+    output_dir = 'test-reports'
+    os.makedirs(output_dir, exist_ok=True)
+    
+    # Run the tests
+    runner = xmlrunner.XMLTestRunner(output=output_dir)
+    unittest.main(testRunner=runner)
