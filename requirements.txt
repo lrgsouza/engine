@@ -16,7 +16,7 @@ coverage==6.3.2
 cycler==0.12.1
 fonttools==4.51.0
 frozenlist==1.4.1
-idna==3.7
+idna==2.5
 kiwisolver==1.4.5
 linecache2==1.0.0
 matplotlib==3.8.4
@@ -41,3 +41,4 @@ lxml==5.2.2
 MarkupSafe==2.1.5
 unittest-xml-reporting==3.2.0
 Werkzeug==3.0.3
+googletrans==3.0.0
