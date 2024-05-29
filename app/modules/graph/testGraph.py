@@ -79,4 +79,4 @@ if __name__ == '__main__':
     
     # Run the tests
     runner = xmlrunner.XMLTestRunner(output=output_dir)
-    unittest.main(testRunner=runner)
+    runner.run(suite())
