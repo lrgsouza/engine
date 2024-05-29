@@ -52,7 +52,7 @@ async def graph(ctx, trigonometric: str):
 async def graph(ctx):
     await ctx.defer()
     dice = Dice()
-    result = dice.dice_gen()
+    result = dice.roll()
     await ctx.respond(f'Seu dado foi {result}')
 
 
